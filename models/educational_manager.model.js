@@ -1,13 +1,12 @@
-import User from './user.model.js';
-import DiscriminatorOptions from './user.model.js';
-module.exports = mongoose => {
-    const EducationalManager = User(mongoose).discriminator('educational manager',
-        new mongoose.Schema({
-            faculty: {
-                type: String,
-                required: true
-            }
-        }, DiscriminatorOptions(DiscriminatorOptions))
-    );
-    return EducationalManager;
-};
+const User = require('./user.model.js');
+const mongoose = require('mongoose');
+
+const EducationalManager =  new mongoose.Schema({
+        faculty: {
+            type: String,
+            required: true
+        }
+    }
+);
+const educationalManager = User.discriminator('educationalManager', EducationalManager);
+module.exports = educationalManager;
