@@ -7,7 +7,7 @@ const Course = new mongoose.Schema(
             required: true
         },
         pre_required:[{
-            type: mongoose.type.objectId,
+            type: mongoose.Schema.Types.ObjectId,
             ref: 'course',
             validate: {
                 validator: async function(value) {
@@ -18,7 +18,7 @@ const Course = new mongoose.Schema(
             }
         }],
         co_required:[{
-            type: mongoose.type.objectId,
+            type: mongoose.Schema.Types.ObjectId,
             ref: 'course',
             validate: {
                 validator: async function(value) {
