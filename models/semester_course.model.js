@@ -1,5 +1,5 @@
-import Course from './course.model.js';
-import DiscriminatorOptions from './user.model.js';
+const Course = require('./course.model.js');
+const DiscriminatorOptions = require('./user.model.js');
 const { Teacher } = require('./teacher.model.js');
 module.exports = mongoose => {
     const SemesterCourse = Course(mongoose).discriminator('semester course',

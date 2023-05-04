@@ -1,5 +1,4 @@
-import DiscriminatorOptions from './user.model.js';
-import {Teacher} from "./teacher.model";
+const DiscriminatorOptions = require ('./user.model.js');
 module.exports = mongoose => {
     const schema = mongoose.Schema(
         {
