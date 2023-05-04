@@ -1,4 +1,5 @@
 import DiscriminatorOptions from './user.model.js';
+import {Teacher} from "./teacher.model";
 module.exports = mongoose => {
     const schema = mongoose.Schema(
         {
@@ -8,11 +9,25 @@ module.exports = mongoose => {
             },
             pre_required:[{
                     type: mongoose.type.objectId,
-                    ref: 'course'
+                    ref: 'course',
+                validate: {
+                    validator: async function(value) {
+                        const course = await Course.findOne({_id: value});
+                        return !!course;
+                    },
+                    message: 'Error: 406 (Invalid course)',
+                }
                 }],
             co_required:[{
                 type: mongoose.type.objectId,
-                ref: 'course'
+                ref: 'course',
+                validate: {
+                    validator: async function(value) {
+                        const course = await Course.findOne({_id: value});
+                        return !!course;
+                    },
+                    message: 'Error: 406 (Invalid course)',
+                }
             }],
             credit:{
                 type: Number,
