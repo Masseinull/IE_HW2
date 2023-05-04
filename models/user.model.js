@@ -14,7 +14,16 @@ module.exports = mongoose => {
                 required: true
             },
             password: String,
-            email: String,
+            email: {
+                type: String,
+                unique: true,
+                validate: {
+                    validator: function (value) {
+                        return /^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/.test(value);
+                    },
+                    message: props => `${props.value} is not a valid email address.`
+                }
+            },
             phone: {
                 type: Number,
                 integer: true,
@@ -23,7 +32,7 @@ module.exports = mongoose => {
             role:{
                 type: String,
                 required: true,
-                enum: ['student', 'teacher', 'educational manager', 'it manager']
+                enum: ['student', 'teacher', 'educational manager', 'admin']
             }
         }, DiscriminatorOptions
     );
