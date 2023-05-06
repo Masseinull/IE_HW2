@@ -15,6 +15,7 @@ module.exports = app => {
     router.get("/student/:id", student.getStudentById);
 
     // Update a Student with id
+    router.put("/admin/student/:id", student.updateStudentById);
     router.put("/student/:id", student.updateStudentById);
 
     // // Delete a Student with id

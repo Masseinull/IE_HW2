@@ -14,6 +14,7 @@ module.exports = app => {
     router.get("/teacher/:id", teacher.findOneTeacher);
 
     // Update a Teacher with id
+    router.put("/admin/teacher/:id", teacher.updateTeacher);
     router.put("/teacher/:id", teacher.updateTeacher);
 
     // Delete a Teacher with id
