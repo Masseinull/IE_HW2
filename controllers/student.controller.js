@@ -39,7 +39,7 @@ exports.createStudent = (req, res) => {
         });
 };
 
-exports.findAll = (req, res) => {
+exports.findAllStudents = (req, res) => {
     Student.find({})
         .then(data => {
             res.send(data);
@@ -52,5 +52,52 @@ exports.findAll = (req, res) => {
         });
 };
 
+exports.getStudentById = (req, res) => {
+    const id = req.params.id;
+    Student.findById(id)
+        .then((student) => {
+            if (student) {
+                res.status(200).json(student);
+            } else {
+                res.status(404).json({ message: 'Student not found' });
+            }
+        })
+        .catch((error) => {
+            res.status(500).json({ message: error.message });
+        });
+};
+
+exports.updateStudentById = (req, res) => {
+    const id = req.params.id;
+    Student.findByIdAndUpdate(id, req.body, { new: true, runValidators: true })
+        .then((student) => {
+            if (student) {
+                res.status(200).json(student);
+            } else {
+                res.status(404).json({ message: 'Student not found' });
+            }
+        })
+        .catch((error) => {
+            if (error.name === 'ValidationError') {
+                res.status(400).json({ message: error.message });
+            } else {
+                res.status(500).json({ message: error.message });
+            }
+        });
+};
 
 
+exports.deleteStudentById = (req, res) => {
+    const id = req.params.id;
+    Student.findByIdAndDelete(id)
+        .then((student) => {
+            if (student) {
+                res.status(200).json(student);
+            } else {
+                res.status(404).json({ message: 'Student not found' });
+            }
+        })
+        .catch((error) => {
+            res.status(500).json({ message: error.message });
+        });
+};
