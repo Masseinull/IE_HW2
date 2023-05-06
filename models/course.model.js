@@ -2,7 +2,7 @@ const mongoose  = require('mongoose');
 
 const Course = new mongoose.Schema(
     {
-        _id: {
+        name: {
             type: String,
             required: true
         },
@@ -32,17 +32,8 @@ const Course = new mongoose.Schema(
             type: Number,
             enum: [0, 1, 2, 3],
             required: true
-        },
-        field: {
-            type: String,
-            required: true
         }
     }, { discriminatorKey: 'type' }
 );
-Course.method("toJSON", function() {
-    const { __v, _id, ...object } = this.toObject();
-    object.id = _id;
-    return object;
-});
 const course = mongoose.model("course", Course);
 module.exports = course;
