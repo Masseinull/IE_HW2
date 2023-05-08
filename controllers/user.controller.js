@@ -1,9 +1,11 @@
 const db = require("../models");
+const bcrypt = require('bcryptjs');
 const User = db.user;
-
 // Create and Save a new User
+
 exports.create = (req, res) => {
     // Validate request
+    const password_encrypted = bcrypt.hash(req.body.password, 10);
     if (!req.body.title) {
         res.status(400).send({ message: "Content can not be empty!" });
         return;
@@ -13,7 +15,7 @@ exports.create = (req, res) => {
     const user = new User({
         name: req.body.name,
         _id: req.body.id,
-        password: req.body.password,
+        password: password_encrypted,
         email: req.body.email,
         phone: req.body.phone,
         role: req.body.role

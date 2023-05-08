@@ -1,18 +1,20 @@
+const bcrypt = require('bcryptjs');
 const db = require("../models/index");
 const Student = db.student;
-
 exports.createStudent = (req, res) => {
+
     // Validate request
     if (!req.body) {
         res.status(400).send({ message: "Content can not be empty!" });
         return;
     }
-
     // Create a User
+
+    const password_encrypted = bcrypt.hash(req.body.password, 10);
     const student = new Student({
         name: req.body.name,
         _id: req.body._id,
-        password: req.body.password,
+        password: password_encrypted,
         email: req.body.email,
         phone: req.body.phone,
         role: 'student',
