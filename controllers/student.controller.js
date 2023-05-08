@@ -1,7 +1,7 @@
 const bcrypt = require('bcryptjs');
 const db = require("../models/index");
 const Student = db.student;
-exports.createStudent = (req, res) => {
+exports.createStudent = async (req, res) => {
 
     // Validate request
     if (!req.body) {
@@ -10,14 +10,13 @@ exports.createStudent = (req, res) => {
     }
     // Create a User
 
-    const password_encrypted = bcrypt.hash(req.body.password, 10);
+    const password_encrypted = await bcrypt.hash(req.body.password, 10);
     const student = new Student({
         name: req.body.name,
         _id: req.body._id,
         password: password_encrypted,
         email: req.body.email,
         phone: req.body.phone,
-        role: 'student',
         study_level: req.body.study_level,
         entry_year: req.body.entry_year,
         entry_semester: req.body.entry_semester,

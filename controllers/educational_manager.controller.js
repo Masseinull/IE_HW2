@@ -1,15 +1,16 @@
+const bcrypt = require('bcryptjs');
 const db = require("../models/index");
 const EducationalManager = db.educationalManager;
 
 // Create a new educational manager
-exports.createEducationalManager = (req, res) => {
+exports.createEducationalManager = async (req, res) => {
+    const password_encrypted = await bcrypt.hash(req.body.password, 10);
     const educationalManager = new EducationalManager({
         name: req.body.name,
         _id: req.body._id,
         email: req.body.email,
-        password: req.body.password,
+        password: password_encrypted,
         phone: req.body.phone,
-        role: 'educationalManager',
         faculty: req.body.faculty
     });
 

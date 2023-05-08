@@ -6,7 +6,7 @@ const login = async (req, res) => {
     try {
         const { id, password } = req.body;
         let user = await User.findOne({ _id : id });
-        let userType = user.role;
+        let userType = user.type;
         if (!user) {
             return res.status(401).json({ error: 'Invalid credentials' });
         }

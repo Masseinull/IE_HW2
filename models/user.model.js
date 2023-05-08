@@ -28,12 +28,12 @@ const User = new mongoose.Schema(
             type: Number,
             integer: true,
             min: 0
-        },
-        role:{
-            type: String,
-            required: true,
-            enum: ['student', 'teacher', 'educational manager', 'admin']
         }
+        // role:{
+        //     type: String,
+        //     required: true,
+        //     enum: ['student', 'teacher', 'educational manager', 'admin']
+        // }
     }, { discriminatorKey: 'type' }
 );
 

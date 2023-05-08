@@ -3,9 +3,9 @@ const bcrypt = require('bcryptjs');
 const User = db.user;
 // Create and Save a new User
 
-exports.create = (req, res) => {
+exports.create = async (req, res) => {
     // Validate request
-    const password_encrypted = bcrypt.hash(req.body.password, 10);
+    const password_encrypted = await bcrypt.hash(req.body.password, 10);
     if (!req.body.title) {
         res.status(400).send({ message: "Content can not be empty!" });
         return;
@@ -17,8 +17,7 @@ exports.create = (req, res) => {
         _id: req.body.id,
         password: password_encrypted,
         email: req.body.email,
-        phone: req.body.phone,
-        role: req.body.role
+        phone: req.body.phone
     });
 
     // Save User in the database

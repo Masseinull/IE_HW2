@@ -3,15 +3,14 @@ const db = require("../models/index");
 const Teacher = db.teacher;
 // Create a new teacher
 
-exports.createTeacher = (req, res) => {
-    const password_encrypted = bcrypt.hash(req.body.password, 10);
+exports.createTeacher = async (req, res) => {
+    const password_encrypted = await bcrypt.hash(req.body.password, 10);
     const teacher = new Teacher({
         name: req.body.name,
         _id: req.body._id,
         email: req.body.email,
         password: password_encrypted,
         phone: req.body.phone,
-        role: 'teacher',
         faculty: req.body.faculty,
         field: req.body.field,
         level: req.body.level
