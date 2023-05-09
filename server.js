@@ -23,6 +23,7 @@ app.get("/", (req, res) => {
 
 
 // set router
+require("./routes/default.routes")(app);
 require("./routes/student.routes")(app);
 require("./routes/teacher.routes")(app);
 require("./routes/manager.routes")(app);
