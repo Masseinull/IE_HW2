@@ -6,6 +6,9 @@ const User = require('../models/user.model');
     try {
         const { id, password } = req.body;
         let user = await User.findOne({ _id : id });
+        if(!user){
+            return res.status(401).json({ error: 'Invalid user' });
+        }
         let userType = user.type;
         if (!user) {
             return res.status(401).json({ error: 'Invalid credentials' });
@@ -24,15 +27,8 @@ const User = require('../models/user.model');
         const token = await jwt.sign(
             payLoad,
             secret,
-            { expiresIn: 86400 }
-            // (err, Token) => {
-            //     if (err) throw err;
-            //     res.json({ Token });
-            //     console.log(Token);
-            //     res.set("token", `Bearer ${Token}`);
-            // }
+            { expiresIn: 3600 }
     );
-        res.set("Authentication", `Bearer ${token}`);
         res.json({ token });
         // console.log(token);
     } catch (err) {
