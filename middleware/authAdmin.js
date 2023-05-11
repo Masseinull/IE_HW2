@@ -2,8 +2,7 @@ const jwt = require("jsonwebtoken");
 
 exports.isAdmin = async (req, res, next) => {
     try {
-        console.log(`isManager => role ${req.type}`);
-        console.log(`type of req.type: ${typeof req.type}`);
+        console.log(`role ${req.type}`);
         if(req.type !== 'admin'){
             return res.status(403).json({ error: 'Access denied. You have to be admin to perform this action.' });
         }

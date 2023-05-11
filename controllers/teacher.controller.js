@@ -16,7 +16,7 @@ exports.createTeacher = async (req, res) => {
         level: req.body.level
     });
 
-    teacher.save()
+    teacher.save(teacher)
         .then(data => {
             res.send(data);
         })
