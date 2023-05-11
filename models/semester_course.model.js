@@ -107,7 +107,7 @@ const SemesterCourse = new mongoose.Schema({
 
 }
 );
-SemesterCourse.index({ course: 1, teacher: 1, semester: 1 }, { unique: true });
+SemesterCourse.index({ general_course: 1, teacher: 1, semester: 1 }, { unique: true });
 // const semesterCourse = Course.discriminator('semesterCourse', SemesterCourse);
 const semesterCourse = mongoose.model('semesterCourse', SemesterCourse);
 module.exports = semesterCourse;

@@ -13,6 +13,9 @@ exports.verifyToken = async (req, res, next) => {
         const decoded = await jwt.verify(token, secret);
         req.id = decoded.user.id;
         req.type = decoded.user.type;
+        if(req.type === "teacher" || req.type === "student"){
+            req.field = decoded.user.field;
+        }
         console.log(`id: ${req.id}`);
         console.log(`role: ${req.type}`);
     } catch (err) {

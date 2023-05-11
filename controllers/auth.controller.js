@@ -17,12 +17,23 @@ const User = require('../models/user.model');
         if (!isMatch) {
             return res.status(401).json({ error: 'Invalid credentials' });
         }
-        const payLoad = {
-            user: {
-                id: user.id,
-                type: userType
-            }
-        };
+        var payLoad = {}
+        if (userType === "teacher" || userType === "student"){
+             payLoad = {
+                user: {
+                    id: user.id,
+                    type: userType,
+                    field: user.field
+                }
+            };
+        } else {
+             payLoad = {
+                user: {
+                    id: user.id,
+                    type: userType
+                }
+            };
+        }
         const secret = process.env.JWT_SECRET || "secret-salt";
         const token = await jwt.sign(
             payLoad,
