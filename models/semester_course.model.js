@@ -1,8 +1,17 @@
 const Course = require('./course.model.js');
-const { Teacher } = require('./teacher.model.js');
+const Teacher = require('./teacher.model.js');
 const mongoose = require('mongoose');
 
 const SemesterCourse = new mongoose.Schema({
+    general_course: {
+            type: mongoose.Schema.Types.ObjectId,
+            ref: 'course',
+            required: true
+        },
+    course_name:{
+        type: String,
+        required: true
+    },
     class_time: {
         type: [mongoose.Schema.Types.Mixed], //[day in week, day_2 in week, start_time, end_time] or
         // [day in week, start_time, end_time]
@@ -65,10 +74,10 @@ const SemesterCourse = new mongoose.Schema({
         ref: 'teacher',
         validate: {
             validator: async function(value) {
-                const teacher = await Teacher.findOne({name: value});
+                const teacher = await mongoose.model('teacher').findOne({name: value});
                 return !!teacher;
             },
-            message: 'Error: 406 (Invalid teacher name)',
+            message: 'Error: 406 (Invalid teacher)',
         }
     },
     capacity:{
@@ -98,5 +107,7 @@ const SemesterCourse = new mongoose.Schema({
 
 }
 );
-const semesterCourse = Course.discriminator('semsesterCourse', SemesterCourse);
+SemesterCourse.index({ course: 1, teacher: 1, semester: 1 }, { unique: true });
+// const semesterCourse = Course.discriminator('semesterCourse', SemesterCourse);
+const semesterCourse = mongoose.model('semesterCourse', SemesterCourse);
 module.exports = semesterCourse;
