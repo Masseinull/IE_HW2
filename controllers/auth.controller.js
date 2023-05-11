@@ -19,7 +19,7 @@ const User = require('../models/user.model');
         }
         const payLoad = {
             user: {
-                id: user._id,
+                id: user.id,
                 type: userType
             }
         };
@@ -30,6 +30,7 @@ const User = require('../models/user.model');
             { expiresIn: 3600 }
     );
         res.json({ token });
+        console.log(`${userType} with id: ${user.id} logged in`);
         // console.log(token);
     } catch (err) {
         console.error(err.message);
