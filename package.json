@@ -3,9 +3,6 @@
   "version": "1.0.0",
   "description": "IE_HW2 : implementing an api for university business",
   "main": "server.js",
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/Masseinull/IE_HW2.git"
@@ -24,11 +21,16 @@
   },
   "homepage": "https://github.com/Masseinull/IE_HW2#readme",
   "dependencies": {
+    "and": "^0.0.3",
     "bcryptjs": "^2.4.3",
     "cors": "^2.8.5",
     "dotenv": "^16.0.3",
     "express": "^4.18.2",
     "jsonwebtoken": "^9.0.0",
-    "mongoose": "^7.1.0"
+    "mongoose": "^7.1.0",
+    "swagger": "^0.7.5",
+    "swagger-autogen": "^2.23.1",
+    "swagger-jsdoc": "^6.2.8",
+    "swagger-ui-express": "^4.6.3"
   }
 }
