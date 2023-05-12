@@ -68,8 +68,12 @@ exports.getStudentById = (req, res) => {
         });
 };
 
-exports.updateStudentById = (req, res) => {
+exports.updateStudentById = async (req, res) => {
     const id = req.params.id;
+    if(req.body.password){
+        const encryptedPassword = await bcrypt.hash(req.body.password, 10);
+        req.body.password = encryptedPassword;
+    }
     Student.findByIdAndUpdate(id, req.body, { new: true, runValidators: true })
         .then((student) => {
             if (student) {
