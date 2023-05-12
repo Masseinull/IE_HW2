@@ -64,8 +64,12 @@ exports.findOneTeacher = (req, res) => {
 };
 
 // Update a teacher identified by the teacherId in the request
-exports.updateTeacher = (req, res) => {
+exports.updateTeacher = async (req, res) => {
     const id = req.params.id;
+    if(req.body.password){
+        const encryptedPassword = await bcrypt.hash(req.body.password, 10);
+        req.body.password = encryptedPassword;
+    }
     Teacher.findByIdAndUpdate(id, req.body, { new: true, runValidators: true })
         .then((teacher) => {
             if (teacher) {

@@ -5,7 +5,7 @@ const semCourse = db.semesterCourse;
 // Create and save a new course
 exports.createCourse = async (req, res) => {
     if (req.body.courseType === "semester") {
-        const generalCourse = await genCourse.findOne({_id: req.body._id});
+        const generalCourse = await genCourse.findOne({_id: req.body.course_name});
         if(!generalCourse){
             res.status(406).send({
                 message:
@@ -13,7 +13,7 @@ exports.createCourse = async (req, res) => {
             });
             return;
         }
-        console.log(`here ==> ${generalCourse}`);
+        // console.log(`here ==> ${generalCourse}`);
         const course = new semCourse({
             general_course: generalCourse,
             course_name: generalCourse._id,
@@ -68,7 +68,7 @@ exports.createCourse = async (req, res) => {
 // Retrieve all courses from the database. based on the role
 exports.findAllCourses = async (req, res) => {
     if(req.type !== "educationalManager") {
-        if (req.body.courseType === "semester") {
+        if (req.query.courseType === "semester") {
             const general = await genCourse.find({field: req.field});
             // Extract course names from the general courses
             const courseNames = general.map((gc) => gc._id);
@@ -99,7 +99,7 @@ exports.findAllCourses = async (req, res) => {
                 });
         }
     } else {
-        if (req.body.courseType === "semester") {
+        if (req.query.courseType === "semester") {
             semCourse.find()
                 .then(courses => {
                     res.send(courses);
@@ -131,7 +131,7 @@ exports.findOneCourse = async (req, res) => {
     const id = req.params.id;
     console.log(`id is ${id} and field is ${req.field}`);
     if(req.type !== "educationalManager"){
-        if(req.body.courseType === "semester"){
+        if(req.query.courseType === "semester"){
             const general = await genCourse.find({field: req.field});
             // Extract course names from the general courses
             const courseNames = general.map((gc) => gc._id);
@@ -158,10 +158,11 @@ exports.findOneCourse = async (req, res) => {
                     res
                         .status(500)
                         .send({message: "Error retrieving general course with id " + id + " in field " + req.field});
-                });;
+                });
         }
     }else{
-    if(req.body.courseType === "semester"){
+    if(req.query.courseType === "semester"){
+        console.log(`heeeehh ${req.body.courseType}`);
         semCourse.find({course_name: id})
             .then(course => {
                 if (!course)

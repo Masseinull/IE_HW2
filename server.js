@@ -1,8 +1,9 @@
 const express = require("express");
 const cors = require("cors");
-const swaggerUi = require('swagger-ui-express');
-const swaggerFile = require('./swagger.json');
 const app = express();
+const swaggerUi = require('swagger-ui-express');
+const YAML = require('yamljs');
+const swaggerDocument = YAML.load('./swagger.yaml');
 
 var corsOptions = {
     origin: "http://localhost:8081"
@@ -15,13 +16,9 @@ app.use(express.json());
 
 // parse requests of content-type - application/x-www-form-urlencoded
 app.use(express.urlencoded({ extended: true }));
-app.use('/', swaggerUi.serve, swaggerUi.setup(swaggerFile))
-// simple route
-app.get("/", (req, res) => {
-    res.json({ message: "Welcome to Golestan API by Masseinull." });
-});
 
-
+// serve Swagger UI
+app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 
 // set router
 require("./routes/default.routes")(app);

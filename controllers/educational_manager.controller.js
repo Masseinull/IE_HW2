@@ -62,8 +62,12 @@ exports.findOneEducationalManager = (req, res) => {
 };
 
 // Update an educational manager identified by the educationalManagerId in the request
-exports.updateEducationalManager = (req, res) => {
+exports.updateEducationalManager = async (req, res) => {
     const id = req.params.id;
+    if(req.body.password){
+        const encryptedPassword = await bcrypt.hash(req.body.password, 10);
+        req.body.password = encryptedPassword;
+    }
     EducationalManager.findByIdAndUpdate(id, req.body, { new: true, runValidators: true })
         .then((educationalManager) => {
             if (educationalManager) {
