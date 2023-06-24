@@ -5,7 +5,7 @@ const regReqSchema = new mongoose.Schema({
     requesterId: Number ,
     semester_courses: [{
         type: mongoose.Schema.Types.ObjectId,
-        ref: 'semesterCourse'
+        ref: 'regCourse'
       }]
 });
 const regReq = mongoose.model('regReq', regReqSchema);
