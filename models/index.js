@@ -13,4 +13,6 @@ db.teacher = require("./teacher.model.js");
 db.educationalManager = require("./educational_manager.model.js");
 db.course = require("./course.model.js");
 db.semesterCourse = require("./semester_course.model.js");
+db.term = require("./term.model.js");
+db.faculty = require("./faculty.model.js");
 module.exports = db;
