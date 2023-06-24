@@ -1002,6 +1002,15 @@ components:
       properties:
         faculty_name:
           type: string
+    PreRegReq:
+      type: object
+      properties:
+        requesterId:
+          type: number
+        semester_courses:
+          type: array
+          items:
+            $ref: '#/components/schemas/SemesterCourse'
     SemesterCourse:
       type: object
       required:
