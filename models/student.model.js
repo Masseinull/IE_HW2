@@ -43,9 +43,27 @@ const Student = new mongoose.Schema({
     field:{
         type: String,
         required: true
+    },
+    supervisor : {
+        type : String , 
+        ref: 'teacher',
+        validate: {
+            validator: async function(value) {
+                const teacher = await mongoose.model('teacher').findOne({name: value});
+                return !!teacher;
+            },
+            message: 'Error: 406 (Invalid teacher name)',
+        }
+    },
+    preReg: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'preReg'
+    },
+    reg : [{
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'reg'
+    }]
     }
-
-}
 );
 
 const student = User.discriminator('student', Student);
