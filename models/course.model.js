@@ -4,7 +4,13 @@ const Course = new mongoose.Schema(
     {
         _id: {
             type: String,
-            required: true
+            required: true,
+            validate: {
+                validator: function (v) {
+                  return /d{8}$/.test(v);
+                },
+                message: props => `${props.value} is not a valid ID`
+              }
         },
         pre_required:[{
             type: String,

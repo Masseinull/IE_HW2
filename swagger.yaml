@@ -1002,6 +1002,43 @@ components:
           type: string
           description: The field of study for the course.
           example: "Computer Science"
+    termSchema:
+      type: object
+      properties:
+        term_name:
+          type: string
+        users_id:
+          type: array
+          items:
+            type: number
+            format: objectId
+        semester_courses:
+          type: array
+          items:
+            $ref: '#/components/schemas/SemesterCourse'
+    facultySchema:
+      type: object
+      properties:
+        faculty_name:
+          type: string
+    PreRegReq:
+      type: object
+      properties:
+        requesterId:
+          type: number
+        semester_courses:
+          type: array
+          items:
+            $ref: '#/components/schemas/SemesterCourse'
+    regReq:
+      type: object
+      properties:
+        requesterId:
+          type: number
+        semester_courses:
+          type: array
+          items:
+            $ref: '#/components/schemas/SemesterCourse'
     SemesterCourse:
       type: object
       required:
