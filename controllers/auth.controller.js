@@ -40,8 +40,17 @@ const User = require('../models/user.model');
             secret,
             { expiresIn: 3600 }
     );
-        res.json({ token });
-        console.log(`${userType} with id: ${user.id} logged in`);
+        const response = {
+            token,
+            user
+        };
+
+        res.json(response);
+
+
+        // res.json( token);
+
+        // console.log(`${userType} with id: ${user.id} logged in`);
         // console.log(token);
     } catch (err) {
         console.error(err.message);
