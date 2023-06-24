@@ -1,10 +1,10 @@
 openapi: 3.0.0
 info:
-  title: Golestan (Masseinull edition)
+  title: Golestan
   description: Golestan API Phase 1 for IE_HW2
   version: 1.0.0
   contact:
-    name: Masseinull
+    name: Masseinull - Amotevallian
     email: mha.sbu.ce@gmail.com
 servers:
   - url: http://localhost:8080/api
