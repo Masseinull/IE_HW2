@@ -997,6 +997,11 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/SemesterCourse'
+    facultySchema:
+      type: object
+      properties:
+        faculty_name:
+          type: string
     SemesterCourse:
       type: object
       required:
