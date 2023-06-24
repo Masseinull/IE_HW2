@@ -1,10 +1,13 @@
 const mongoose = require('mongoose');
 
 const preRegSchema = new mongoose.Schema({
-    term_id: Number ,
-    semester_courses: [{
+    term_id: {
+        type: Number,
+        ref: 'term'
+    },
+    preReg_course: [{
         type: mongoose.Schema.Types.ObjectId,
-        ref: 'semesterCourse'
+        ref: 'preRegCourse'
       }],
     student_id : {
       type: [{ type: mongoose.Schema.Types.ObjectId, ref: 'student' }],

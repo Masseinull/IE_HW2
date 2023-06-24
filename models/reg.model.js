@@ -1,10 +1,13 @@
 const mongoose = require('mongoose');
 
 const regSchema = new mongoose.Schema({
-    term_id: Number ,
-    semester_courses: [{
+    term_id: {
+        type: Number,
+        ref: 'term'
+    },
+    register_course: [{
         type: mongoose.Schema.Types.ObjectId,
-        ref: 'semesterCourse'
+        ref: 'regCourse'
       }],
     student_id : {
       type: [{ type: mongoose.Schema.Types.ObjectId, ref: 'student' }],
