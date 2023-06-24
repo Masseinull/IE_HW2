@@ -162,7 +162,6 @@ exports.findOneCourse = async (req, res) => {
         }
     }else{
     if(req.query.courseType === "semester"){
-        console.log(`heeeehh ${req.body.courseType}`);
         semCourse.find({course_name: id})
             .then(course => {
                 if (!course)
