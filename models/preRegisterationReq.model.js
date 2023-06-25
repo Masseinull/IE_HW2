@@ -8,7 +8,7 @@ const preRegReqSchema = new mongoose.Schema({
     },
     semester_courses: [{
         type: mongoose.Schema.Types.ObjectId,
-        ref: 'semesterCourse'
+        ref: 'preRegCourse'
       }]
 });
 const preRegReq = mongoose.model('preRegReq', preRegReqSchema);
