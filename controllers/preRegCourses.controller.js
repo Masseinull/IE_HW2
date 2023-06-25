@@ -12,7 +12,7 @@ exports.removeSemesterCourseFromPreregistration = async (req, res) => {
         return res.status(404).json({ error: 'Term not found' });
       }
   
-      let preregistrationCourse = await PreregistrationCourse.findOne({ term: termId });
+      let preregistrationCourse = await PreregistrationCourse.findOne({ term_id: termId });
       if (!preregistrationCourse) {
         return res.status(400).json({ error: 'This term has no pre registeration courses yet!' });
       }
@@ -21,7 +21,7 @@ exports.removeSemesterCourseFromPreregistration = async (req, res) => {
         return res.status(400).json({ error: 'Semester course not found in preregistration courses list' });
       }
   
-      preregistrationCourse.semesterCourses = preregistrationCourse.semesterCourses.filter(
+      preregistrationCourse.semesterCourses = preregistrationCourse.semester_courses.filter(
         _id => _id.toString() !== semesterCourseId
       );
   
