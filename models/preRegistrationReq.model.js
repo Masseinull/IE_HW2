@@ -1,7 +1,7 @@
 const mongoose = require('mongoose');
 const semesterCourse = require('./semester_course.model')
 
-const regReqSchema = new mongoose.Schema({
+const preRegReqSchema = new mongoose.Schema({
     term_id: {
         type: Number,
         ref: 'term',
@@ -27,8 +27,8 @@ const regReqSchema = new mongoose.Schema({
     },
     semester_courses: [{
         type: mongoose.Schema.Types.ObjectId,
-        ref: 'regCourse'
+        ref: 'preRegCourse'
       }]
 });
-const regReq = mongoose.model('regReq', regReqSchema);
-module.exports = regReq;
+const preRegReq = mongoose.model('preRegReq', preRegReqSchema);
+module.exports = preRegReq;

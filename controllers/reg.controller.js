@@ -19,7 +19,7 @@ exports.updateRegistrationStatus = async (req, res) => {
       .exec();
 
     if (!registration) {
-      return res.status(404).json({ error: `Registration for studnt with id ${studentId} not found` });
+      return res.status(404).json({ error: `Registration for student with id ${studentId} not found` });
     }
 
     return res.status(200).json({ registration });

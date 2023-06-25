@@ -16,4 +16,5 @@ db.semesterCourse = require("./semester_course.model.js");
 db.term = require("./term.model.js");
 db.faculty = require("./faculty.model.js");
 db.preRegCourse = require("./preRegCourse.model.js");
+db.preRegReq = require("./preRegistrationReq.model.js");
 module.exports = db;
