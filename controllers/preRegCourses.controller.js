@@ -1,4 +1,5 @@
-const Term = require('../models/term.model');
+const Term = require('../models/term');
+const PreregistrationCourse = require('../models/preRegCourse');
 
 // DELETE /term/:id/preregistration
 exports.removeSemesterCourseFromPreregistration = async (req, res) => {
@@ -37,12 +38,22 @@ exports.addSemesterCourseToPreregistration = async (req, res) => {
       return res.status(404).json({ error: 'Term not found' });
     }
 
-    if (term.semester_courses.includes(semesterCourseId)) {
-      return res.status(400).json({ error: 'Semester course already in preregistration list' });
+    if (!term.semester_courses.includes(semesterCourseId)) {
+      return res.status(400).json({ error: 'Semester course not found in term' });
     }
 
-    term.semester_courses.push(semesterCourseId);
-    await term.save();
+    let preregistrationCourse = await PreregistrationCourse.findOne({ term_id: termId });
+
+    if (!preregistrationCourse) {
+      preregistrationCourse = new PreregistrationCourse({
+        term_id: termId,
+        semester_courses: [],
+      });
+    }
+
+    preregistrationCourse.semester_courses.push(semesterCourseId);
+
+    await preregistrationCourse.save();
 
     return res.status(200).json({ message: 'Semester course added to preregistration list' });
   } catch (error) {
@@ -50,6 +61,7 @@ exports.addSemesterCourseToPreregistration = async (req, res) => {
     return res.status(500).json({ error: 'Server error' });
   }
 };
+
 
 // GET /term/:id/preregistration_courses
 exports.getPreregistrationCourses = async (req, res) => {
