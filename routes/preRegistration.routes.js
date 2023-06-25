@@ -20,7 +20,7 @@ module.exports = app => {
 
     router.post("/course/preregister/:id", verifyToken, isStudent, preReg.preregisterCourse);
 
-    router.delete("/course/preregister/:id", verifyToken, isStudent, ); // complete
+    router.delete("/course/preregister/:id", verifyToken, isStudent, preReg.cancelPreregisterCourse);
 
     app.use('/api', router);
 };

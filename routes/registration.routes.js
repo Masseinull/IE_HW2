@@ -16,6 +16,6 @@ module.exports = app => {
 
     router.post("/course/register/:id", verifyToken, isStudent, reg.registerCourse);
 
-    router.delete("/course/register/:id", verifyToken, isStudent, reg.); // comp
+    router.delete("/course/register/:id", verifyToken, isStudent, ); // comp
     app.use('/api', router);
 };
