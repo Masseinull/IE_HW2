@@ -14,7 +14,7 @@ exports.removeSemesterCourseFromPreregistration = async (req, res) => {
   
       let prc = await PreregistrationCourse.findOne({ term_id: termId });
       if (!prc) {
-        return res.status(400).json({ error: 'This term has no pre registeration courses yet!' });
+        return res.status(400).json({ error: 'This term has no pre registration courses yet!' });
       }
   
       if (!prc.semester_courses.includes(semesterCourseId)) {

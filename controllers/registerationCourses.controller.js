@@ -14,7 +14,7 @@ exports.removeSemesterCourseFromRegistration = async (req, res) => {
   
       let rc = await registerationCourse.findOne({ term_id: termId });
       if (!rc) {
-        return res.status(400).json({ error: 'This term has no registeration courses yet!' });
+        return res.status(400).json({ error: 'This term has no registration courses yet!' });
       }
   
       if (!rc.semester_courses.includes(semesterCourseId)) {
@@ -35,7 +35,7 @@ exports.removeSemesterCourseFromRegistration = async (req, res) => {
   
 };
 
-// POST /term/:id/preregistration
+// POST /term/:id/registration
 exports.addSemesterCourseToRegistration = async (req, res) => {
   const termId = req.params.id;
   const { semesterCourseId } = req.body;
@@ -71,7 +71,7 @@ exports.addSemesterCourseToRegistration = async (req, res) => {
 };
 
 
-// GET /term/:id/preregistration_courses
+// GET /term/:id/registration_courses
 exports.getReregistrationCourses = async (req, res) => {
     const termId = req.params.id;
 
