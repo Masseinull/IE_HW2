@@ -38,7 +38,8 @@ const Student = new mongoose.Schema({
     },
     faculty: {
         type: String,
-        required: true
+        required: true,
+        ref: 'faculty'
     },
     field:{
         type: String,

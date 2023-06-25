@@ -29,15 +29,52 @@ exports.createTeacher = async (req, res) => {
 
 // Retrieve all teachers from the database
 exports.findAllTeachers = (req, res) => {
-    Teacher.find()
-        .then(teachers => {
-            res.send(teachers);
-        })
-        .catch(err => {
-            res.status(500).send({
-                message: err.message || 'Some error occurred while retrieving teachers.'
+    if (req.type === 'admin') {
+        if (req.body.filter) {
+
+            Teacher.find({faculty: req.body.filter})
+                .then(teachers => {
+                    if (teachers) {
+
+                        res.send(teachers);
+                    } else {
+                        res.status(404).json({message: 'Teachers not found in this faculty'});
+                    }
+                })
+                .catch(err => {
+                    res.status(500).send({
+                        message: err.message || 'Some error occurred while retrieving teachers.'
+                    });
+                });
+        } else {
+            Teacher.find()
+                .then(teachers => {
+                    res.send(teachers);
+                })
+                .catch(err => {
+                    res.status(500).send({
+                        message: err.message || 'Some error occurred while retrieving teachers.'
+                    });
+                });
+        }
+
+    } else {
+        Teacher.find({faculty: req.faculty})
+            .then(teachers => {
+
+                if (teachers) {
+                    res.send(teachers);
+                } else {
+                    res.status(404).json({message: `Teachers not found in this faculty ${req.faculty}`});
+                }
+            })
+            .catch(err => {
+                res.status(500).send({
+                    message: err.message || 'Some error occurred while retrieving teachers.'
+                });
             });
-        });
+    }
+
 };
 
 // Find a single teacher with a teacherId
@@ -48,7 +85,7 @@ exports.findOneTeacher = (req, res) => {
             if (teacher) {
                 res.status(200).json(teacher);
             } else {
-                res.status(404).json({ message: 'Teacher not found' });
+                res.status(404).json({message: 'Teacher not found'});
             }
         })
         .catch(err => {
@@ -66,23 +103,23 @@ exports.findOneTeacher = (req, res) => {
 // Update a teacher identified by the teacherId in the request
 exports.updateTeacher = async (req, res) => {
     const id = req.params.id;
-    if(req.body.password){
+    if (req.body.password) {
         const encryptedPassword = await bcrypt.hash(req.body.password, 10);
         req.body.password = encryptedPassword;
     }
-    Teacher.findByIdAndUpdate(id, req.body, { new: true, runValidators: true })
+    Teacher.findByIdAndUpdate(id, req.body, {new: true, runValidators: true})
         .then((teacher) => {
             if (teacher) {
                 res.status(200).json(teacher);
             } else {
-                res.status(404).json({ message: 'Student not found' });
+                res.status(404).json({message: 'Student not found'});
             }
         })
         .catch((error) => {
             if (error.name === 'ValidationError') {
-                res.status(400).json({ message: error.message });
+                res.status(400).json({message: error.message});
             } else {
-                res.status(500).json({ message: error.message });
+                res.status(500).json({message: error.message});
             }
         });
 };

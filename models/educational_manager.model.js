@@ -4,7 +4,8 @@ const mongoose = require('mongoose');
 const EducationalManager =  new mongoose.Schema({
         faculty: {
             type: String,
-            required: true
+            required: true,
+            ref: 'faculty'
         }
     }
 );

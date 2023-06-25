@@ -3,7 +3,8 @@ const mongoose = require('mongoose');
 const Teacher = new mongoose.Schema({
     faculty: {
         type: String,
-        required: true
+        required: true,
+        ref: 'faculty'
     },
     field:{
         type: String,
