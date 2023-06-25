@@ -22,12 +22,17 @@ const termSchema = new mongoose.Schema({
         type: String,
         ref: 'semesterCourse',
         validate: {
-            validator: async function(value) {
-                const course = await mongoose.model('course').findOne({_id: value});
-                return !!course;
+            validator: async function (value) {
+                // Fetch the semesterCourse document
+                const semesterCourse = await mongoose.model('semesterCourse').findOne({ _id: value });
+                if(semesterCourse){
+                    return semesterCourse.semester === this.term_name;
+                }
+                // Check if the term_number matches the term_name
+                return false;
             },
-            message: `${406} (Invalid course in co_req)`,
-        }
+            message: 'Error: 406 (Invalid semesterCourse)',
+        },
     }],
 });
 termSchema.method("toJSON", function() {
