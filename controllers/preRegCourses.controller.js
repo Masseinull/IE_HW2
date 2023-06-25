@@ -1,4 +1,4 @@
-const Term = require('../models/term');
+const Term = require('../models/term.model');
 
 // DELETE /term/:id/preregistration
 exports.removeSemesterCourseFromPreregistration = async (req, res) => {
