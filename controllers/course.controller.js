@@ -21,7 +21,6 @@ exports.createCourse = async (req, res) => {
             exam_time: req.body.exam_time,
             exam_location: req.body.exam_location,
             teacher: req.body.teacher,
-            capacity: req.body.capacity,
             semester: req.body.semester
         });
 

@@ -1,5 +1,5 @@
 const db = require("../models/index");
-const PreRegistration = db.preRegCourse;
+const preRegCourse = db.preRegCourse;
 exports.createTerm = async (req, res) => {
 
     // Validate request
@@ -30,8 +30,8 @@ exports.createTerm = async (req, res) => {
         });
 };
 
-exports.findAllCourses = (req, res) => {
-    PreRegistration.find({term_id:req.params.id})
+exports.findAllTermCourses = (req, res) => {
+    preRegCourse.find({term_id:req.params.id})
         .then(data => {
             res.send(data.semester_courses);
         })

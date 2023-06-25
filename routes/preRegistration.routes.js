@@ -12,7 +12,7 @@ module.exports = app => {
     // router.post("/term", verifyToken, isManager, term.createTerm);
     //
     // Retrieve all Terms
-    router.get("/terms/:id/preregistration_courses", verifyToken, isStudentOrManager, preRegister.findAllCourses);
+    router.get("/terms/:id/preregistration_courses", verifyToken, isStudentOrManager, preRegister.findAllTermCourses);
     //
     //
     // // Retrieve a single term with id preregister courses
