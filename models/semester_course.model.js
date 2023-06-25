@@ -104,5 +104,10 @@ const SemesterCourse = new mongoose.Schema({
 );
 SemesterCourse.index({ general_course: 1, teacher: 1, semester: 1 }, { unique: true });
 // const semesterCourse = Course.discriminator('semesterCourse', SemesterCourse);
+SemesterCourse.method("toJSON", function() {
+    const { __v, _id, ...object } = this.toObject();
+    object.course_name = _id;
+    return object;
+});
 const semesterCourse = mongoose.model('semesterCourse', SemesterCourse);
 module.exports = semesterCourse;
