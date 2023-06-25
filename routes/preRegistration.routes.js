@@ -12,7 +12,7 @@ module.exports = app => {
 
     router.delete("/term/:id/preregistration", verifyToken, isManager, preRegCourse.removeSemesterCourseFromPreregistration);
 
-    router.get("/term/:id/preregistrations", verifyToken, isManager, preReg.termBasedPreRegistrations);
+    router.get("/term/:id/preregistrations", verifyToken, isStudentOrManager, preReg.termBasedPreRegistrations);
 
     router.get("/course/:id/preregistrations", verifyToken, isManager, preReg.courseBasedPreRegistrations);
 
