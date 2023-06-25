@@ -10,7 +10,13 @@ const SemesterCourse = new mongoose.Schema({
         },
     course_name:{
         type: String,
-        required: true
+        required: true,
+        validate: {
+            validator: function (v) {
+                return /d{8}$/.test(v);
+            },
+            message: props => `${props.value} is not a valid ID`
+        }
     },
     class_time: {
         type: [mongoose.Schema.Types.Mixed], //[day in week, day_2 in week, start_time, end_time] or
