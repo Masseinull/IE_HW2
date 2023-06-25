@@ -4,7 +4,7 @@ const registerationCourse = require('../models/regCourse.model');
 // DELETE /term/:id/registration
 exports.removeSemesterCourseFromRegistration = async (req, res) => {
     const termId = req.params.id;
-    const semesterCourseId = req.body.semesterCourseId;
+    const semesterCourseName = req.body.semesterCourseName;
   
     try {
       const term = await Term.findById(termId);
@@ -22,7 +22,7 @@ exports.removeSemesterCourseFromRegistration = async (req, res) => {
       }
   
       rc.semester_courses.map(item => item.course) = rc.semester_courses.map(item => item.course).filter(
-        _id => _id.toString() !== semesterCourseId
+        course_name !== semesterCourseName
       );
   
       await rc.save();

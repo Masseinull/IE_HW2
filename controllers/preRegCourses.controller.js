@@ -4,7 +4,7 @@ const PreregistrationCourse = require('../models/preRegCourse.model');
 // DELETE /term/:id/preregistration
 exports.removeSemesterCourseFromPreregistration = async (req, res) => {
     const termId = req.params.id;
-    const semesterCourseId = req.body.semesterCourseId;
+    const semesterCourseName = req.body.semesterCourseName;
   
     try {
       const term = await Term.findById(termId);
@@ -22,7 +22,7 @@ exports.removeSemesterCourseFromPreregistration = async (req, res) => {
       }
   
       prc.semester_courses.map(item => item.course) = prc.semester_courses.map(item => item.course).filter(
-        _id => _id.toString() !== semesterCourseId
+        course_name !== semesterCourseName
       );
   
       await prc.save();
