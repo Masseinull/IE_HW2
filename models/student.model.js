@@ -63,7 +63,11 @@ const Student = new mongoose.Schema({
     reg : [{
         type: mongoose.Schema.Types.ObjectId,
         ref: 'reg'
-    }]
+    }],
+    passed_courses: [{
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'course'
+      }]
     }
 );
 
