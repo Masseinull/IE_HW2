@@ -71,7 +71,7 @@ exports.registerCourse = async (req, res) => {
       return res.status(404).json({ error: `Course already found in registration of student ${student._id}` });
     }
     registrationRequest.semester_courses.push(courseId);
-    await registrationRequest.save();
+    await registrationRequest.save({ runValidators: true });
 
 
     const c = course.semester_courses.find(course => course.course_name === courseId);
