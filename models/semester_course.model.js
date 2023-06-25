@@ -80,11 +80,6 @@ const SemesterCourse = new mongoose.Schema({
             message: 'Error: 406 (Invalid teacher)',
         }
     },
-    capacity:{
-        type: Number,
-        min: 0,
-        required: true
-    },
     semester: {
         type: Number,// 4 digits XXX1(August) or XXX2(January) or XXX3(Summer)
         required: true,
