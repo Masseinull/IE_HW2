@@ -27,21 +27,18 @@ const regSchema = new mongoose.Schema({
         validate: {
           validator: async function (value) {
             const course = await mongoose.model('semester_course').findOne({ course_name: value });
-            const msg = "";
             if (!checkForClassTimingConflicts(course, this.register_course)) {
-              msg = "class timing conflict"
               return false; 
             }
   
             if (!checkForExamTimingConflicts(course, this.register_course)) {
-              msg = "exam timing conflict"
               return false; 
             }
   
   
             return true;
           },
-          message: `${msg}`,
+          message: "course class/exam timing conflict",
         },
       }],
     student_id : {
