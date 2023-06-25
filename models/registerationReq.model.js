@@ -28,7 +28,11 @@ const regReqSchema = new mongoose.Schema({
     semester_courses: [{
         type: mongoose.Schema.Types.ObjectId,
         ref: 'regCourse'
-      }]
+      }],
+    credits : {
+        type: Number,
+        min: 12
+    }
 });
 const regReq = mongoose.model('regReq', regReqSchema);
 module.exports = regReq;

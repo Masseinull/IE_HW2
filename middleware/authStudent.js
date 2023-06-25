@@ -17,3 +17,14 @@ exports.isThisStudent = async (req, res, next) => {
         return res.status(401).send("Invalid Token");
     }
 };
+exports.isStudent = async (req, res, next) => {
+    try {
+        // console.log(`role ${req.type}`);
+        if(req.type !== 'teacher'){
+            return res.status(403).json({ error: 'Access denied. You have to be admin to perform this action.' });
+        }
+        return next();
+    } catch (err) {
+        return res.status(401).send("Invalid Token");
+    }
+};

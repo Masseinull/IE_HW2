@@ -29,6 +29,15 @@ const regCourseSchema = new mongoose.Schema({
           type: Number,
           default: 0,
         },
+        registered: {
+            type: Number,
+            validate: {
+                validator: function(value) {
+                    return value <= this.ge('capacity'); // Check if registered value is less than or equal to capacity
+                },
+                message: 'Registered value exceeds capacity',
+            },
+        }
       }],
 });
 const regCourse = mongoose.model('regCourse', regCourseSchema);

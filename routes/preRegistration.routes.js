@@ -1,6 +1,8 @@
 const {verifyToken} = require("../middleware/auth");
 const {isManager} = require("../middleware/authManager");
 const {isStudentOrManager} = require("../middleware/authStudentOrManager");
+const {isStudent} = require("../middleware/authStudent");
+
 module.exports = app => {
     const preRegCourse = require("../controllers/preRegCourses.controller.js");
     const preReg = require("../controllers/preReg.controller.js");
@@ -15,6 +17,10 @@ module.exports = app => {
     router.get("/term/:id/preregistrations", verifyToken, isStudentOrManager, preReg.termBasedPreRegistrations);
 
     router.get("/course/:id/preregistrations", verifyToken, isManager, preReg.courseBasedPreRegistrations);
+
+    router.post("/course/preregister/:id", verifyToken, isStudent, preReg.preregisterCourse);
+
+    router.delete("/course/preregister/:id", verifyToken, isStudent, ); // complete
 
     app.use('/api', router);
 };
