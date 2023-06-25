@@ -17,11 +17,11 @@ exports.removeSemesterCourseFromPreregistration = async (req, res) => {
         return res.status(400).json({ error: 'This term has no pre registration courses yet!' });
       }
   
-      if (!prc.semester_courses.includes(semesterCourseId)) {
+      if (!prc.semester_courses.map(item => item.course).includes(semesterCourseId)) {
         return res.status(400).json({ error: 'Semester course not found in preregistration courses list' });
       }
   
-      prc.semester_courses = prc.semester_courses.filter(
+      prc.semester_courses.map(item => item.course) = prc.semester_courses.map(item => item.course).filter(
         _id => _id.toString() !== semesterCourseId
       );
   
@@ -59,8 +59,10 @@ exports.addSemesterCourseToPreregistration = async (req, res) => {
       });
     }
 
-    prc.semester_courses.push(semesterCourseId);
-
+    prc.semester_courses.push({
+        course: semesterCourseId,
+        requests: 0,
+      });
     await prc.save();
 
     return res.status(200).json({ message: 'Semester course added to preregistration list' });
@@ -87,7 +89,7 @@ exports.getPreregistrationCourses = async (req, res) => {
         return res.status(400).json({ error: 'No preregistration course found for the term' });
       }
   
-      const prcs = prc.semester_courses;
+      const prcs = prc.semester_courses.map(item => item.course);
   
       return res.status(200).json({ prcs });
     } catch (error) {

@@ -21,9 +21,15 @@ const preRegCourseSchema = new mongoose.Schema({
     }
     },
     semester_courses: [{
-        type: mongoose.Schema.Types.ObjectId,
-        ref: 'semesterCourse'
-    }],
+        course: {
+          type: mongoose.Schema.Types.ObjectId,
+          ref: 'semesterCourse',
+        },
+        requests: {
+          type: Number,
+          default: 0,
+        },
+      }],
 });
 const preRegCourse = mongoose.model('preRegCourse', preRegCourseSchema);
 module.exports = preRegCourse;
