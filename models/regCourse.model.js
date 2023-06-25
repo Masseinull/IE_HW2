@@ -21,8 +21,14 @@ const regCourseSchema = new mongoose.Schema({
         }
     },
     semester_courses: [{
-        type: mongoose.Schema.Types.ObjectId,
-        ref: 'semesterCourse'
+        course: {
+          type: mongoose.Schema.Types.ObjectId,
+          ref: 'semesterCourse',
+        },
+        capacity: {
+          type: Number,
+          default: 0,
+        },
       }],
 });
 const regCourse = mongoose.model('regCourse', regCourseSchema);

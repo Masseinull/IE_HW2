@@ -17,11 +17,11 @@ exports.removeSemesterCourseFromRegistration = async (req, res) => {
         return res.status(400).json({ error: 'This term has no registration courses yet!' });
       }
   
-      if (!rc.semester_courses.includes(semesterCourseId)) {
+      if (!rc.semester_courses.map(item => item.course).includes(semesterCourseId)) {
         return res.status(400).json({ error: 'Semester course not found in registration courses list' });
       }
   
-      rc.semester_courses = rc.semester_courses.filter(
+      rc.semester_courses.map(item => item.course) = rc.semester_courses.map(item => item.course).filter(
         _id => _id.toString() !== semesterCourseId
       );
   
@@ -58,9 +58,11 @@ exports.addSemesterCourseToRegistration = async (req, res) => {
         semester_courses: [],
       });
     }
-
-    rc.semester_courses.push(semesterCourseId);
-
+    rc.semester_courses.push({
+        course: semesterCourseId,
+        capacity: 0,
+      });
+  
     await rc.save();
 
     return res.status(200).json({ message: 'Semester course added to registration list' });
@@ -87,7 +89,7 @@ exports.getReregistrationCourses = async (req, res) => {
         return res.status(400).json({ error: 'No registration course found for the term' });
       }
   
-      const rcs = rc.semester_courses;
+      const rcs = rc.semester_courses.map(item => item.course);
   
       return res.status(200).json({ rcs });
     } catch (error) {
