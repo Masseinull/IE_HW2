@@ -69,15 +69,15 @@ const SemesterCourse = new mongoose.Schema({
         }
     },
     teacher:{
-        type: String,
+        type: Number,
         required: true,
         ref: 'teacher',
         validate: {
             validator: async function(value) {
-                const teacher = await mongoose.model('teacher').findOne({name: value});
+                const teacher = await mongoose.model('teacher').findOne({_id: value});
                 return !!teacher;
             },
-            message: 'Error: 406 (Invalid teacher)',
+            message: 'Error: 406 (Invalid teacher id)',
         }
     },
     semester: {

@@ -45,14 +45,14 @@ const Student = new mongoose.Schema({
         required: true
     },
     supervisor : {
-        type : String , 
+        type : Number ,
         ref: 'teacher',
         validate: {
             validator: async function(value) {
-                const teacher = await mongoose.model('teacher').findOne({name: value});
+                const teacher = await mongoose.model('teacher').findOne({_id: value});
                 return !!teacher;
             },
-            message: 'Error: 406 (Invalid teacher name)',
+            message: 'Error: 406 (Invalid teacher id)',
         }
     },
     preReg: {
