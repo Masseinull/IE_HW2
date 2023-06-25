@@ -1,5 +1,5 @@
-const Term = require('../models/term');
-const PreregistrationCourse = require('../models/preRegCourse');
+const Term = require('../models/teacher.model');
+const PreregistrationCourse = require('../models/preRegCourse.model');
 
 // DELETE /term/:id/preregistration
 exports.removeSemesterCourseFromPreregistration = async (req, res) => {
@@ -12,20 +12,20 @@ exports.removeSemesterCourseFromPreregistration = async (req, res) => {
         return res.status(404).json({ error: 'Term not found' });
       }
   
-      let preregistrationCourse = await PreregistrationCourse.findOne({ term_id: termId });
-      if (!preregistrationCourse) {
+      let prc = await PreregistrationCourse.findOne({ term_id: termId });
+      if (!prc) {
         return res.status(400).json({ error: 'This term has no pre registeration courses yet!' });
       }
   
-      if (!preregistrationCourse.semester_courses.includes(semesterCourseId)) {
+      if (!prc.semester_courses.includes(semesterCourseId)) {
         return res.status(400).json({ error: 'Semester course not found in preregistration courses list' });
       }
   
-      preregistrationCourse.semesterCourses = preregistrationCourse.semester_courses.filter(
+      prc.semester_courses = prc.semester_courses.filter(
         _id => _id.toString() !== semesterCourseId
       );
   
-      await preregistrationCourse.save();
+      await prc.save();
   
       return res.status(200).json({ message: 'Semester course removed from preregistration courses list' });
     } catch (error) {
@@ -50,18 +50,18 @@ exports.addSemesterCourseToPreregistration = async (req, res) => {
       return res.status(400).json({ error: 'Semester course not found in term' });
     }
 
-    let preregistrationCourse = await PreregistrationCourse.findOne({ term_id: termId });
+    let prc = await PreregistrationCourse.findOne({ term_id: termId });
 
-    if (!preregistrationCourse) {
-      preregistrationCourse = new PreregistrationCourse({
+    if (!prc) {
+        prc = new PreregistrationCourse({
         term_id: termId,
         semester_courses: [],
       });
     }
 
-    preregistrationCourse.semester_courses.push(semesterCourseId);
+    prc.semester_courses.push(semesterCourseId);
 
-    await preregistrationCourse.save();
+    await prc.save();
 
     return res.status(200).json({ message: 'Semester course added to preregistration list' });
   } catch (error) {
@@ -81,15 +81,15 @@ exports.getPreregistrationCourses = async (req, res) => {
         return res.status(404).json({ error: 'Term not found' });
       }
   
-      const preregistrationCourse = await PreregistrationCourse.findOne({ term_id: termId });
+      const prc = await PreregistrationCourse.findOne({ term_id: termId });
   
-      if (!preregistrationCourse) {
+      if (!prc) {
         return res.status(400).json({ error: 'No preregistration course found for the term' });
       }
   
-      const preregistrationCourses = preregistrationCourse.semester_courses;
+      const prcs = prc.semester_courses;
   
-      return res.status(200).json({ preregistrationCourses });
+      return res.status(200).json({ prcs });
     } catch (error) {
       console.error(error);
       return res.status(500).json({ error: 'Server error' });
