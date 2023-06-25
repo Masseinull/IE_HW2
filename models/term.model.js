@@ -25,7 +25,6 @@ const termSchema = new mongoose.Schema({
     },
     users_id: {
             type: [{ type: mongoose.Schema.Types.ObjectId, ref: 'user' }],
-            required: true,
             validate: {
                 validator: async function(value) {
                     const users = await mongoose.model('user').find({ _id: { $in: value }, type: { $in: ['educationalManager', 'student', 'teacher'] } });
@@ -57,7 +56,7 @@ const termSchema = new mongoose.Schema({
 });
 termSchema.method("toJSON", function() {
     const { __v, _id, ...object } = this.toObject();
-    object.term_name = _id;
+    object.term_id = _id;
     return object;
 });
 const term = mongoose.model('term', termSchema);

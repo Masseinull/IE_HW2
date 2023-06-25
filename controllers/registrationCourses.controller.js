@@ -20,9 +20,9 @@ exports.removeSemesterCourseFromRegistration = async (req, res) => {
       if (!rc.semester_courses.map(item => item.course).includes(semesterCourseId)) {
         return res.status(400).json({ error: 'Semester course not found in registration courses list' });
       }
-  
+
       rc.semester_courses.map(item => item.course) = rc.semester_courses.map(item => item.course).filter(
-        course_name !== semesterCourseName
+          course_name !== semesterCourseName
       );
   
       await rc.save();
