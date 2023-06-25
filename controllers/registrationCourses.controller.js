@@ -17,13 +17,11 @@ exports.removeSemesterCourseFromRegistration = async (req, res) => {
         return res.status(400).json({ error: 'This term has no registration courses yet!' });
       }
   
-      if (!rc.semester_courses.map(item => item.course).includes(semesterCourseId)) {
+      if (!rc.semester_courses.map(item => item.course).includes(semesterCourseName)) {
         return res.status(400).json({ error: 'Semester course not found in registration courses list' });
       }
   
-      rc.semester_courses.map(item => item.course) = rc.semester_courses.map(item => item.course).filter(
-        course_name !== semesterCourseName
-      );
+      rc.semester_courses = rc.semester_courses.filter(item => item.course.course_name !== semesterCourseName);
   
       await rc.save();
   
