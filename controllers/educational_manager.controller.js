@@ -27,15 +27,31 @@ exports.createEducationalManager = async (req, res) => {
 
 // Retrieve all educational managers from the database
 exports.findAllEducationalManagers = (req, res) => {
-    EducationalManager.find()
-        .then(educationalManagers => {
-            res.send(educationalManagers);
-        })
-        .catch(err => {
-            res.status(500).send({
-                message: err.message || 'Some error occurred while retrieving educational managers.'
+    if(req.body.filter){
+        EducationalManager.find({faculty: req.body.filter})
+            .then(educationalManagers => {
+                if (educationalManagers){
+                    res.send(educationalManagers);
+                }else {
+                    res.status(404).json({message: `Managers not found in this faculty ${req.body.filter}`});
+                }
+            })
+            .catch(err => {
+                res.status(500).send({
+                    message: err.message || 'Some error occurred while retrieving educational managers.'
+                });
             });
-        });
+    }else {
+        EducationalManager.find()
+            .then(educationalManagers => {
+                res.send(educationalManagers);
+            })
+            .catch(err => {
+                res.status(500).send({
+                    message: err.message || 'Some error occurred while retrieving educational managers.'
+                });
+            });
+    }
 };
 
 // Find a single educational manager with an educationalManagerId

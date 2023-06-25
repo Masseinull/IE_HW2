@@ -80,24 +80,35 @@ exports.findAllTeachers = (req, res) => {
 // Find a single teacher with a teacherId
 exports.findOneTeacher = (req, res) => {
     const id = req.params.id;
-    Teacher.findById(id)
-        .then(teacher => {
-            if (teacher) {
-                res.status(200).json(teacher);
-            } else {
-                res.status(404).json({message: 'Teacher not found'});
-            }
-        })
-        .catch(err => {
-            if (err.kind === 'ObjectId') {
-                return res.status(404).send({
-                    message: 'Teacher not found with id ' + id
-                });
-            }
-            return res.status(500).send({
-                message: 'Error retrieving teacher with id ' + id
+    if (req.type === 'admin') {
+        Teacher.findById(id)
+            .then((teacher) => {
+                if (teacher) {
+                    res.status(200).json(teacher);
+                } else {
+                    res.status(404).json({message: 'Teacher not found'});
+                }
+            })
+            .catch((error) => {
+                res.status(500).json({message: error.message});
             });
-        });
+    } else {
+        Teacher.findById(id)
+            .then((teacher) => {
+                if (teacher) {
+                    if (teacher.faculty === req.faculty) {
+                        res.status(200).json(teacher);
+                    } else {
+                        res.status(404).json({message: `Teacher ${teacher.id} is not in your faculty`});
+                    }
+                } else {
+                    res.status(404).json({message: 'Teacher not found'});
+                }
+            })
+            .catch((error) => {
+                res.status(500).json({message: error.message});
+            });
+    }
 };
 
 // Update a teacher identified by the teacherId in the request
