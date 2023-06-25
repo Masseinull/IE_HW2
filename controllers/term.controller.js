@@ -13,6 +13,7 @@ exports.createTerm = async (req, res) => {
         term_name: req.body.term_name,
         users_id: req.body.users_id,
         semester_courses: req.body.semester_courses,
+        current_term: req.body.current_term,
     });
 
     // Save student in the databases (user and student)

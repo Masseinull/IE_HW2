@@ -34,6 +34,10 @@ const termSchema = new mongoose.Schema({
             message: 'Error: 406 (Invalid semesterCourse)',
         },
     }],
+    current_term :{
+        type: Boolean,
+        required : true
+    },
 });
 termSchema.method("toJSON", function() {
     const { __v, _id, ...object } = this.toObject();
