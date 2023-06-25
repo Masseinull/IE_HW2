@@ -165,7 +165,7 @@ exports.cancelPreregisterCourse = async (req, res) => {
 
         await c.save();
 
-        return res.status(200).json({ message: 'Course added to student\'s preregistration list' });
+        return res.status(200).json({ message: 'Course deleted from student\'s preregistration list' });
     } catch (error) {
         console.error(error);
         return res.status(500).json({ error: 'Server error' });
