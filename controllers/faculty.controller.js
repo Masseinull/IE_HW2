@@ -28,4 +28,35 @@ exports.createFaculty = async (req, res) => {
         });
 };
 
+exports.findAllFaculties = (req, res) => {
+    Faculty.find()
+        .then(data => {
+            res.send(data);
+        })
+        .catch(err => {
+            res.status(500).send({
+                message:
+                    err.message || "Some error occurred while retrieving faculties."
+            });
+        });
+};
+
+exports.updateFaculty = async (req, res) => {
+    const id = req.params.id;
+    Faculty.findOneAndUpdate({faculty_name: id}, req.body, { new: true, runValidators: true })
+        .then((faculty) => {
+            if (faculty) {
+                res.status(200).json(faculty);
+            } else {
+                res.status(404).json({ message: 'Faculty not found' });
+            }
+        })
+        .catch((error) => {
+            if (error.name === 'ValidationError') {
+                res.status(400).json({ message: error.message });
+            } else {
+                res.status(500).json({ message: error.message });
+            }
+        });
+};
 

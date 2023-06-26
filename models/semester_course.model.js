@@ -1,5 +1,3 @@
-const Course = require('./course.model.js');
-const Teacher = require('./teacher.model.js');
 const mongoose = require('mongoose');
 
 const SemesterCourse = new mongoose.Schema({
@@ -42,7 +40,8 @@ const SemesterCourse = new mongoose.Schema({
                         value[1] >= 1 && value[1] <= 24 &&
                         value[2] >= 1 && value[2] <= 24 &&
                         value[0] >= 1 && value[0] <= 7 )
-            }
+            },
+            message: 'Error: 404 (Invalid class time)'
         }
     },
     exam_time:{
@@ -58,19 +57,26 @@ const SemesterCourse = new mongoose.Schema({
                     value[1] >= 1 && value[1] <= 24 &&
                     value[2] >= 1 && value[2] <= 24 &&
                     value[0] >= 1 && value[0] <= 14 //14 days of exams
-            }
+            },
+            message: 'Error: 404 (Invalid exam time)'
         }
     },
     exam_location:{
         type: [mongoose.Schema.Types.Mixed], //[faculty_name, room_number]
         required: true,
         validate:{
-            validator: function (value){
-                return value.length === 2 &&
+            validator: async function (value){
+                let availableFaculty = undefined;
+                if(typeof value[0] == "string"){
+                    const faculty = await mongoose.model('faculty').findOne({faculty_name: value[0]});
+                    availableFaculty = !!faculty;
+                }
+                return (value.length === 2 &&
                     typeof value[0] == "string" &&
                     typeof value[1] == "number" &&
-                    value[1] > 0
-            }
+                    value[1] > 0) && (availableFaculty);
+            },
+            message: 'Error: 404 (Invalid exam location)'
         }
     },
     teacher:{
@@ -86,24 +92,16 @@ const SemesterCourse = new mongoose.Schema({
         }
     },
     semester: {
-        type: mongoose.Schema.Types.ObjectId,// 4 digits XXX1(August) or XXX2(January) or XXX3(Summer)
+        type: Number,// 4 digits XXX1(August) or XXX2(January) or XXX3(Summer)
         required: true,
-        ref: 'term'
-        // validate: {
-        //     validator: function(value) {
-        //         // Check if value is a 4-digit number
-        //         if (value < 1000 || value > 9999) {
-        //             return false;
-        //         }
-        //         // Check if last digit is 1, 2, or 3
-        //         const lastDigit = value % 10;
-        //         if (lastDigit !== 1 && lastDigit !== 2 && lastDigit !== 3) {
-        //             return false;
-        //         }
-        //         return true;
-        //     },
-        //     message: 'Error: 406 (Invalid semester)',
-        // }
+        ref: 'term',
+        validate: {
+            validator: async function(value) {
+                const term = await mongoose.model('term').findOne({_id: value});
+                return !!term;
+            },
+            message: 'Error: 406 (Invalid term)',
+        }
     }
 
 }
