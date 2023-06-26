@@ -14,8 +14,8 @@ const preRegSchema = new mongoose.Schema({
         }
     },
     preReg_course: [{
-        type: mongoose.Schema.Types.ObjectId,
-        ref: 'preRegCourse'
+        type: String,
+        ref: 'preRegCourse.semester_courses.course._id'
       }],
     student_id : {
       type: [{

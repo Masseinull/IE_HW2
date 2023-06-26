@@ -14,8 +14,8 @@ const regSchema = new mongoose.Schema({
         }
     },
     register_course: [{
-        type: mongoose.Schema.Types.ObjectId,
-        ref: 'regCourse.semester_courses.course',
+        type: String,
+        ref: 'regCourse.semester_courses.course._id',
         
       }],
     student_id : {
