@@ -3,9 +3,8 @@ const Semester_course = require('./semester_course.model')
 const mongoose = require('mongoose');
 
 const termSchema = new mongoose.Schema({
-    term_id: {
+    _id: {
         type: Number ,
-        unique : true,
         validate: {
             validator: function(value) {
                 // Check if value is a 4-digit number
@@ -56,7 +55,7 @@ const termSchema = new mongoose.Schema({
 });
 termSchema.method("toJSON", function() {
     const { __v, _id, ...object } = this.toObject();
-    object.term_id = _id;
+    object.id = _id;
     return object;
 });
 const term = mongoose.model('term', termSchema);

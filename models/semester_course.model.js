@@ -8,9 +8,8 @@ const SemesterCourse = new mongoose.Schema({
             ref: 'course',
             required: true
         },
-    course_name:{
+    _id:{
         type: String,
-        required: true,
         validate: {
             validator: function (v) {
                 return /d{8}$/.test(v);
@@ -113,7 +112,7 @@ SemesterCourse.index({ general_course: 1, teacher: 1, semester: 1 }, { unique: t
 // const semesterCourse = Course.discriminator('semesterCourse', SemesterCourse);
 SemesterCourse.method("toJSON", function() {
     const { __v, _id, ...object } = this.toObject();
-    object.course_name = _id;
+    object.id = _id;
     return object;
 });
 const semesterCourse = mongoose.model('semesterCourse', SemesterCourse);

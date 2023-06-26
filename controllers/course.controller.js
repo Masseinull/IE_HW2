@@ -16,7 +16,7 @@ exports.createCourse = async (req, res) => {
         // console.log(`here ==> ${generalCourse}`);
         const course = new semCourse({
             general_course: generalCourse,
-            course_name: generalCourse._id,
+            _id: generalCourse._id,
             class_time: req.body.class_time,
             exam_time: req.body.exam_time,
             exam_location: req.body.exam_location,
@@ -73,7 +73,7 @@ exports.findAllCourses = async (req, res) => {
             const courseNames = general.map((gc) => gc._id);
 
             // Find semester courses with course field matching the extracted course names
-          semCourse.find({ course_name: { $in: courseNames } })
+          semCourse.find({ _id: { $in: courseNames } })
                 .then(courses => {
                     res.send(courses);
                 })
@@ -135,7 +135,7 @@ exports.findOneCourse = async (req, res) => {
             // Extract course names from the general courses
             const courseNames = general.map((gc) => gc._id);
 
-            semCourse.find({ $and: [{ _id: id }, { course_name: { $in: courseNames } }] })
+            semCourse.find({ $and: [{ _id: id }, { 'general_course._id': { $in: courseNames } }] })
             .then(course => {
             if (!course)
                 res.status(404).send({message: "No semester course for  " + id + " in field " + req.field});
@@ -161,7 +161,7 @@ exports.findOneCourse = async (req, res) => {
         }
     }else{
     if(req.query.courseType === "semester"){
-        semCourse.find({course_name: id})
+        semCourse.find({_id: id})
             .then(course => {
                 if (!course)
                     res.status(404).send({message: "No semester course for  " + id});
@@ -244,7 +244,7 @@ exports.deleteCourse = async (req, res) => {
                 });
             });
     }else {
-        const semesterCourseForThisGeneralCourse = await semCourse.findOne({course_name: id});
+        const semesterCourseForThisGeneralCourse = await semCourse.findOne({_id: id});
         if (!semesterCourseForThisGeneralCourse) {
             genCourse.findByIdAndRemove(id)
                 .then(course => {

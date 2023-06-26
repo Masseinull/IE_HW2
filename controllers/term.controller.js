@@ -10,7 +10,7 @@ exports.createTerm = async (req, res) => {
     // Create a Term
 
     const term = new Term({
-        term_id: req.body.term_id,
+        _id: req.body._id,
         users_id: req.body.users_id,
         semester_courses: req.body.semester_courses,
         current_term: req.body.current_term,
@@ -32,7 +32,7 @@ exports.createTerm = async (req, res) => {
 };
 
 exports.findAllTerms = (req, res) => {
-    Term.find({})
+    Term.find()
         .then(data => {
             res.send(data);
         })
