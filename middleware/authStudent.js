@@ -20,8 +20,8 @@ exports.isThisStudent = async (req, res, next) => {
 exports.isStudent = async (req, res, next) => {
     try {
         // console.log(`role ${req.type}`);
-        if(req.type !== 'teacher'){
-            return res.status(403).json({ error: 'Access denied. You have to be admin to perform this action.' });
+        if(req.type !== 'student'){
+            return res.status(403).json({ error: 'Access denied. You have to be student to perform this action.' });
         }
         return next();
     } catch (err) {

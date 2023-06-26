@@ -1,4 +1,4 @@
-const Term = require('../models/teacher.model');
+const Term = require('../models/term.model');
 const PreRegReq = require('../models/preRegistrationReq.model');
 const Student = require('../models/student.model');
 const preRegCourse = require('../models/preRegCourse.model');
@@ -72,7 +72,6 @@ exports.courseBasedPreRegistrations = async (req, res) => {
 
 exports.preregisterCourse = async (req, res) => {
     const courseId = req.params.id;
-
     try {
         const currentTerm = await Term.findOne({ current_term: true });
 
@@ -103,18 +102,19 @@ exports.preregisterCourse = async (req, res) => {
 
             await preregistrationRequest.save();
         }
-        const courseExists = preregistrationRequest.semester_courses.some(courseObj => courseObj._id === courseId);
-        if (courseExists) {
+        const courseIndex = await preregistrationRequest.semester_courses.findIndex(courseObj => courseObj === courseId);
+        if (courseIndex !== -1) {
             return res.status(404).json({ error: `Course already found in pre registration of student ${student._id}` });
         }
         preregistrationRequest.semester_courses.push(courseId);
         await preregistrationRequest.save();
 
-
-        const c = course.semester_courses.find(course => course._id === courseId);
-        c.requests += 1;
-
-        await c.save();
+        //
+        const index = course.semester_courses.findIndex((item) => item.course === courseId);
+        if(index !== -1){
+            course.semester_courses[index].requests += 1;
+        }
+        await course.save();
 
         return res.status(200).json({ message: 'Course added to student\'s preregistration list' });
     } catch (error) {

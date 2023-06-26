@@ -82,8 +82,6 @@ exports.addSemesterCourseToPreregistration = async (req, res) => {
 // GET /term/:id/preregistration_courses
 exports.getPreregistrationCourses = async (req, res) => {
   const termId = Number (req.params.id);
-  console.log(typeof termId);
-  console.log(termId);
   try {
     const term = await Term.findById(termId);
     if (!term) {
