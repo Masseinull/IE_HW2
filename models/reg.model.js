@@ -1,5 +1,4 @@
 const mongoose = require('mongoose');
-const { checkForClassTimingConflicts, checkForExamTimingConflicts } = require('../timing');
 
 const regSchema = new mongoose.Schema({
     term_id: {
@@ -17,22 +16,7 @@ const regSchema = new mongoose.Schema({
     register_course: [{
         type: mongoose.Schema.Types.ObjectId,
         ref: 'regCourse.semester_courses.course',
-        validate: {
-          validator: async function (value) {
-            const course = await mongoose.model('semester_course').findOne({ course_name: value });
-            if (!checkForClassTimingConflicts(course, this.register_course)) {
-              return false; 
-            }
-  
-            if (!checkForExamTimingConflicts(course, this.register_course)) {
-              return false; 
-            }
-  
-  
-            return true;
-          },
-          message: "course class/exam timing conflict",
-        },
+        
       }],
     student_id : {
       type: [{
