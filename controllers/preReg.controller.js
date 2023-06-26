@@ -102,7 +102,7 @@ exports.preregisterCourse = async (req, res) => {
 
             await preregistrationRequest.save();
         }
-        const courseIndex = await preregistrationRequest.semester_courses.findIndex(courseObj => courseObj === courseId);
+        const courseIndex = preregistrationRequest.semester_courses.findIndex(courseObj => courseObj === courseId);
         if (courseIndex !== -1) {
             return res.status(404).json({ error: `Course already found in pre registration of student ${student._id}` });
         }
@@ -150,7 +150,7 @@ exports.cancelPreregisterCourse = async (req, res) => {
         if (!preregistrationRequest) {
             return res.status(404).json({ error: 'this student has no pre registeration request' });
         }
-        const courseIndex = preregistrationRequest.semester_courses.findIndex(course => course.course_name.equals(courseId));
+        const courseIndex = preregistrationRequest.semester_courses.findIndex(courseObj => courseObj === courseId);
 
         if (courseIndex !== -1) {
             preregistrationRequest.semester_courses.splice(courseIndex, 1);
@@ -160,10 +160,12 @@ exports.cancelPreregisterCourse = async (req, res) => {
             return res.status(404).json({ error: 'course not found in student pre registeration courses' });
         }
 
-        const c = course.semester_courses.find(course => course.course_name === courseId);
-        c.requests -= 1;
-
-        await c.save();
+        //
+        const index = course.semester_courses.findIndex((item) => item.course === courseId);
+        if(index !== -1){
+            course.semester_courses[index].requests -= 1;
+        }
+        await course.save();
 
         return res.status(200).json({ message: 'Course deleted from student\'s preregistration list' });
     } catch (error) {

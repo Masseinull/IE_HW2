@@ -66,18 +66,21 @@ exports.registerCourse = async (req, res) => {
 
       await registrationRequest.save();
     }
-    const courseExists = registrationRequest.semester_courses.some(courseObj => courseObj.course_name === courseId);
-    if (courseExists){
-      return res.status(404).json({ error: `Course already found in registration of student ${student._id}` });
+    const courseIndex = registrationRequest.semester_courses.findIndex(courseObj => courseObj === courseId);
+    if (courseIndex !== -1) {
+        return res.status(404).json({ error: `Course already found in registration of student ${student._id}` });
     }
+    registrationRequest.semester_courses.push(courseId);
+    await registrationRequest.save();
+
     registrationRequest.semester_courses.push(courseId);
     await registrationRequest.save({ runValidators: true });
 
-
-    const c = course.semester_courses.find(course => course.course_name === courseId);
-    c.registered += course.general_course.credit;
-
-    await c.save();
+    const index = course.semester_courses.findIndex((item) => item.course === courseId);
+    if(index !== -1){
+        course.semester_courses[index].registered += 1;
+    }
+    await course.save();
 
     return res.status(200).json({ message: 'Course added to student\'s registration list' });
   } catch (error) {
@@ -112,7 +115,7 @@ exports.cancelRegisterCourse = async (req, res) => {
       if (!registrationRequest) {
           return res.status(404).json({ error: 'this student has no registeration request' });
       }
-      const courseIndex = registrationRequest.semester_courses.findIndex(course => course.course_name.equals(courseId));
+      const courseIndex = registrationRequest.semester_courses.findIndex(courseObj => courseObj === courseId);
 
       if (courseIndex !== -1) {
           registrationRequest.semester_courses.splice(courseIndex, 1);
@@ -122,10 +125,11 @@ exports.cancelRegisterCourse = async (req, res) => {
           return res.status(404).json({ error: 'course not found in student registeration courses' });
       }
 
-      const c = course.semester_courses.find(course => course.course_name === courseId);
-      c.registered -= 1;
-
-      await c.save();
+      const index = course.semester_courses.findIndex((item) => item.course === courseId);
+      if(index !== -1){
+          course.semester_courses[index].registered -= 1;
+      }
+      await course.save();
 
       return res.status(200).json({ message: 'Course deleted from student\'s preregistration list' });
   } catch (error) {
