@@ -30,7 +30,7 @@ const regReqSchema = new mongoose.Schema({
       }],
     credits : {
         type: Number,
-        min: 12
+        max: 20
     }
 });
 const regReq = mongoose.model('regReq', regReqSchema);
