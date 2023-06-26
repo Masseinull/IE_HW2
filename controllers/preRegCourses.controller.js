@@ -22,9 +22,7 @@ exports.removeSemesterCourseFromPreregistration = async (req, res) => {
         return res.status(400).json({ error: 'Semester course not found in preregistration courses list' });
       }
   
-      prc.semester_courses.map(item => item.course) = prc.semester_courses.map(item => item.course).filter(
-        _id !== semesterCourseId
-      );
+      prc.semester_courses = prc.semester_courses.map(item => item.course).filter(course => course._id !== semesterCourseId);
   
       await prc.save();
   

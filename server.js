@@ -29,6 +29,7 @@ require("./routes/course.routes")(app);
 require("./routes/preRegistration.routes")(app);
 require("./routes/registration.routes")(app);
 require("./routes/term.routes")(app);
+require("./routes/faculty.routes")(app);
 
 // set port, listen for requests
 const PORT = process.env.PORT || 8080;
