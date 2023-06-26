@@ -8,25 +8,25 @@ const Course = new mongoose.Schema(
         },
         pre_required:[{
             type: String,
-            ref: 'course',
-            validate: {
-                validator: async function(value) {
-                    const course = await mongoose.model('course').findOne({_id: value});
-                    return !!course;
-                },
-                message: `${406} (Invalid course in pre_req)`
-            }
+            ref: 'course._id'
+            // validate: {
+            //     validator: async function(value) {
+            //         const course = await mongoose.model('course').findOne({_id: value});
+            //         return !!course;
+            //     },
+            //     message: `${406} (Invalid course in pre_req)`
+            // }
         }],
         co_required:[{
             type: String,
-            ref: 'course',
-            validate: {
-                validator: async function(value) {
-                    const course = await mongoose.model('course').findOne({_id: value});
-                    return !!course;
-                },
-                message: `${406} (Invalid course in co_req)`,
-            }
+            ref: 'course._id'
+            // validate: {
+            //     validator: async function(value) {
+            //         const course = await mongoose.model('course').findOne({_id: value});
+            //         return !!course;
+            //     },
+            //     message: `${406} (Invalid course in co_req)`,
+            // }
         }],
         credit:{
             type: Number,
