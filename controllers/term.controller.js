@@ -10,7 +10,7 @@ exports.createTerm = async (req, res) => {
     // Create a Term
 
     const term = new Term({
-        term_name: req.body.term_name,
+        term_id: req.body.term_id,
         users_id: req.body.users_id,
         semester_courses: req.body.semester_courses,
         current_term: req.body.current_term,
