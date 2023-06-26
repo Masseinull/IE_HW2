@@ -29,19 +29,19 @@ function checkForExamTimingConflicts(course, registeredCourses) {
 function doTimingsOverlap(timing1, timing2) {
 
     let day11, day12, day21, day22, start1, start2, end1, end2;
-    if (timing1.length == 3 && timing2.length == 3) {
+    if (timing1.length === 3 && timing2.length === 3) {
         [day11, start1, end1] = timing1;
         [day21, start2, end2] = timing2;
     }
-    else if (timing1.length == 3 && timing2.length == 4) {
+    else if (timing1.length === 3 && timing2.length === 4) {
         [day11, start1, end1] = timing1;
         [day21, day22, start2, end2] = timing2;
     }
-    else if (timing1.length == 4 && timing2.length == 3) {
+    else if (timing1.length === 4 && timing2.length === 3) {
         [day11, day12, start1, end1] = timing1;
         [day21, start2, end2] = timing2;
     }
-    else if (timing1.length == 4 && timing2.length == 4) {
+    else if (timing1.length === 4 && timing2.length === 4) {
         [day11, day12, start1, end1] = timing1;
         [day21, day22, start2, end2] = timing2;
     }
