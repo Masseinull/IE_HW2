@@ -1,5 +1,6 @@
 const Term = require('../models/teacher.model');
 const PreregistrationCourse = require('../models/preRegCourse.model');
+// @ts-check
 
 // DELETE /term/:id/preregistration
 exports.removeSemesterCourseFromPreregistration = async (req, res) => {
@@ -8,7 +9,7 @@ exports.removeSemesterCourseFromPreregistration = async (req, res) => {
 
   try {
     const semesterCourseId = req.body.semesterCourseName;
-    const term = await Term.findById(termId);
+    const term = await Ter.findById(termId);
     if (!term) {
       return res.status(404).json({ error: 'Term not found' });
     }

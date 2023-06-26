@@ -52,7 +52,7 @@ exports.courseBasedPreRegistrations = async (req, res) => {
         }
 
         PreRegReq.find({
-            term_id: currentTerm.term_name,
+            term_id: currentTerm._id,
             semester_courses: { $elemMatch: { $eq: courseId } }
         })
             .then(preRegistrations => {
@@ -80,7 +80,7 @@ exports.preregisterCourse = async (req, res) => {
             return res.status(404).json({ error: 'Current term not found' });
         }
         const course = await preRegCourse.findOne({
-            term_id: currentTerm.term_id,
+            term_id: currentTerm._id,
             'semester_courses.course': courseId
         });
         const student = await Student.findById(req.id);
@@ -91,12 +91,12 @@ exports.preregisterCourse = async (req, res) => {
 
 
         let preregistrationRequest = await PreRegReq.findOne({
-            term_id: currentTerm.term_id,
+            term_id: currentTerm._id,
             requesterId: student._id
         })
         if (!preregistrationRequest) {
             preregistrationRequest = new PreRegReq({
-                term_id: currentTerm.term_id,
+                term_id: currentTerm._id,
                 requesterId: student._id,
                 semester_courses: []
             });
@@ -133,7 +133,7 @@ exports.cancelPreregisterCourse = async (req, res) => {
             return res.status(404).json({ error: 'Current term not found' });
         }
         const course = await preRegCourse.findOne({
-            term_id: currentTerm.term_id,
+            term_id: currentTerm._id,
             'semester_courses.course': courseId
         });
         const student = await Student.findById(req.id);
@@ -144,7 +144,7 @@ exports.cancelPreregisterCourse = async (req, res) => {
 
 
         const preregistrationRequest = await PreRegReq.findOne({
-            term_id: currentTerm.term_id,
+            term_id: currentTerm._id,
             requesterId: student._id
         });
         if (!preregistrationRequest) {
