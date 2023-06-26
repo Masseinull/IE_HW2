@@ -13,10 +13,10 @@ const termSchema = new mongoose.Schema({
                     return false;
                 }
                 // Check if last digit is 1, 2, or 3
-                const lastDigit = value % 10;
-                if (lastDigit !== 1 && lastDigit !== 2 && lastDigit !== 3) {
-                    return false;
-                }
+                // const lastDigit = value % 10;
+                // if (lastDigit !== 1 && lastDigit !== 2 && lastDigit !== 3) {
+                //     return false;
+                // }
                 return true;
             },
             message: 'Error: 406 (Invalid term id)',
