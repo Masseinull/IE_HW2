@@ -86,7 +86,7 @@ const SemesterCourse = new mongoose.Schema({
         }
     },
     semester: {
-        type: Number,// 4 digits XXX1(August) or XXX2(January) or XXX3(Summer)
+        type: mongoose.Schema.Types.ObjectId,// 4 digits XXX1(August) or XXX2(January) or XXX3(Summer)
         required: true,
         ref: 'term'
         // validate: {
