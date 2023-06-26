@@ -103,7 +103,7 @@ exports.preregisterCourse = async (req, res) => {
 
             await preregistrationRequest.save();
         }
-        const courseExists = preregistrationRequest.semester_courses.some(courseObj => courseObj.course_name === courseId);
+        const courseExists = preregistrationRequest.semester_courses.some(courseObj => courseObj._id === courseId);
         if (courseExists) {
             return res.status(404).json({ error: `Course already found in pre registration of student ${student._id}` });
         }
@@ -111,7 +111,7 @@ exports.preregisterCourse = async (req, res) => {
         await preregistrationRequest.save();
 
 
-        const c = course.semester_courses.find(course => course.course_name === courseId);
+        const c = course.semester_courses.find(course => course._id === courseId);
         c.requests += 1;
 
         await c.save();

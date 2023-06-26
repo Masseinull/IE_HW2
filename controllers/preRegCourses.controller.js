@@ -1,4 +1,4 @@
-const Term = require('../models/teacher.model');
+const Term = require('../models/term.model');
 const PreregistrationCourse = require('../models/preRegCourse.model');
 // @ts-check
 
@@ -81,9 +81,9 @@ exports.addSemesterCourseToPreregistration = async (req, res) => {
 
 // GET /term/:id/preregistration_courses
 exports.getPreregistrationCourses = async (req, res) => {
-  console.log("HOOOOO");
-  const termId = req.params.id;
-
+  const termId = Number (req.params.id);
+  console.log(typeof termId);
+  console.log(termId);
   try {
     const term = await Term.findById(termId);
     if (!term) {

@@ -12,9 +12,16 @@ const Student = new mongoose.Schema({
         min: 0
     },
     entry_semester: {
-        type: mongoose.Schema.Types.ObjectId, // 4 digit number, XXX1 (August) , XXX2 (January), XXX3 (Summer)
+        type: Number, // 4 digit number, XXX1 (August) , XXX2 (January), XXX3 (Summer)
         required: true,
-        ref: 'term'
+        ref: 'term',
+        validate: {
+            validator: async function(value) {
+                const term = await mongoose.model('term').findOne({_id: value});
+                return !!term;
+            },
+            message: 'Error: 406 (Invalid term)',
+        }
     },
     GPA: {
         type: Number,

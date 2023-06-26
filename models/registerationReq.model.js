@@ -26,16 +26,16 @@ const regReqSchema = new mongoose.Schema({
         }
     },
     semester_courses: [{
-        type: mongoose.Schema.Types.ObjectId,
-        ref: 'regCourse',
+        type: String,
+        ref: 'regCourse.semester_courses.course._id',
         validate: {
             validator: async function (value) {
-              const course = await mongoose.model('semester_course').findOne({ course_name: value });
-              if (!checkForClassTimingConflicts(course, this.register_course)) {
+              const course = await mongoose.model('semester_course').findOne({ _id: value });
+              if (!checkForClassTimingConflicts(course, this.semester_courses)) {
                 return false; 
               }
     
-              if (!checkForExamTimingConflicts(course, this.register_course)) {
+              if (!checkForExamTimingConflicts(course, this.semester_courses)) {
                 return false; 
               }
     
