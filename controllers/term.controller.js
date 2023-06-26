@@ -61,7 +61,7 @@ exports.getTermById = (req, res) => {
 
 exports.updateTermById = async (req, res) => {
     const id = req.params.id;
-    Term.findByIdAndUpdate(id, req.body, { new: true, runValidators: true })
+    Term.findByIdAndUpdate(id, req.body, { useFindAndModify: false, new: true, runValidators: true })
         .then((term) => {
             if (term) {
                 res.status(200).json(term);

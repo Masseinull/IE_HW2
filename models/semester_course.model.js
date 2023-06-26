@@ -2,15 +2,22 @@ const mongoose = require('mongoose');
 
 const SemesterCourse = new mongoose.Schema({
     general_course: {
-            type: mongoose.Schema.Types.ObjectId,
+            type: String,
             ref: 'course',
-            required: true
+            required: true,
+        validate: {
+            validator: async function(value) {
+                const course = await mongoose.model('course').findOne({_id: value});
+                return !!course;
+            },
+            message: 'Error: 406 (Invalid general course id)',
+        }
         },
     _id:{
         type: String,
         validate: {
             validator: function (v) {
-                return /d{8}$/.test(v);
+                return /^\d{8}$/.test(v);
             },
             message: props => `${props.value} is not a valid ID`
         }

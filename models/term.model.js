@@ -40,7 +40,7 @@ const termSchema = new mongoose.Schema({
                 // Fetch the semesterCourse document
                 const semesterCourse = await mongoose.model('semesterCourse').findOne({ _id: value });
                 if(semesterCourse){
-                    return semesterCourse.semester === this.term_name;
+                    return semesterCourse.semester !== this._id;
                 }
                 // Check if the term_number matches the term_name
                 return false;

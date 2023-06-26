@@ -5,7 +5,7 @@ const semCourse = db.semesterCourse;
 // Create and save a new course
 exports.createCourse = async (req, res) => {
     if (req.body.courseType === "semester") {
-        const generalCourse = await genCourse.findOne({_id: req.body.course_name});
+        const generalCourse = await genCourse.findOne({_id: req.body.general_course});
         if(!generalCourse){
             res.status(406).send({
                 message:
@@ -15,8 +15,8 @@ exports.createCourse = async (req, res) => {
         }
         // console.log(`here ==> ${generalCourse}`);
         const course = new semCourse({
-            general_course: generalCourse,
-            _id: generalCourse._id,
+            general_course: generalCourse._id,
+            _id: req.body._id,
             class_time: req.body.class_time,
             exam_time: req.body.exam_time,
             exam_location: req.body.exam_location,

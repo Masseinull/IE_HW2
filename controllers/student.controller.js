@@ -24,7 +24,7 @@ exports.createStudent = async (req, res) => {
         faculty: req.body.faculty,
         field: req.body.field ,
         passed_courses : [],
-        reg : [],
+        reg : []
     });
 
     // Save student in the databases (user and student)

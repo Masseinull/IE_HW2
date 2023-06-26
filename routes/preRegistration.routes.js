@@ -10,7 +10,7 @@ module.exports = app => {
 
     router.post("/term/:id/preregistration", verifyToken, isManager, preRegCourse.addSemesterCourseToPreregistration);
 
-    router.get("/terms/:id/preregistration_courses", verifyToken, isStudentOrManager, preRegCourse.getPreregistrationCourses);
+    router.get("/term/:id/preregistration_courses", verifyToken, isStudentOrManager, preRegCourse.getPreregistrationCourses);
 
     router.delete("/term/:id/preregistration", verifyToken, isManager, preRegCourse.removeSemesterCourseFromPreregistration);
 
