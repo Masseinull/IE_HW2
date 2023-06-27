@@ -5,11 +5,11 @@ const swaggerUi = require('swagger-ui-express');
 const YAML = require('yamljs');
 const swaggerDocument = YAML.load('./swagger.yaml');
 
-var corsOptions = {
-    origin: "http://localhost:8081"
-};
+// var corsOptions = {
+//     origin: "http://localhost:8081"
+// };
 
-app.use(cors(corsOptions));
+app.use(cors());
 
 // parse requests of content-type - application/json
 app.use(express.json());
