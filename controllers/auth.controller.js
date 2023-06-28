@@ -38,7 +38,7 @@ const User = require('../models/user.model');
         const token = await jwt.sign(
             payLoad,
             secret,
-            { expiresIn: 3600 }
+            { expiresIn: 86400 }
     );
         const response = {
             token,
