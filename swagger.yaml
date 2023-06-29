@@ -801,32 +801,68 @@ paths:
           $ref: "#/components/responses/NotFound"
         "500":
           $ref: "#/components/responses/InternalServerError"
-  /admin/faculty:
+  /admin/faculties:
     post:
-      summary: Add a new faculty
-      tags:
-        - Manager
-      description: Add a new faculty to the database, this action is only approved for admin
-      security:
-        - BearerAuth: []
+      summary: Create a Faculty
       requestBody:
+        required: true
         content:
           application/json:
             schema:
-              $ref: "#/components/schemas/facultySchema"
-        description: Fields to add a new faculty
-        required: true
+              $ref: '#/components/schemas/Faculty'
       responses:
-        "201":
-          description: Teacher added successfully
+        '200':
+          description: Successful operation
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/Teacher"
-        "401":
-          $ref: "#/components/responses/Unauthorized"
-        "500":
-          $ref: "#/components/responses/InternalServerError"
+                $ref: '#/components/schemas/Faculty'
+        '400':
+          description: Invalid request
+    get:
+      summary: Get all Faculties
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Faculty'
+        '500':
+          description: Internal server error
+
+  /admin/faculties/{id}:
+    put:
+      summary: Update a Faculty by ID
+      parameters:
+        - in: path
+          name: id
+          required: true
+          description: Name of the Faculty to update
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Faculty'
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Faculty'
+        '404':
+          description: Faculty not found
+        '400':
+          description: Invalid request
+        '500':
+          description: Internal server error
+
   /Professor/{id}:
     get:
       summary: Retrieve a teacher by ID
@@ -1151,7 +1187,7 @@ components:
           type: array
           items:
             $ref: "#/components/schemas/SemesterCourse"
-    facultySchema:
+    Faculty:
       type: object
       properties:
         faculty_name:
