@@ -862,6 +862,92 @@ paths:
           description: Invalid request
         '500':
           description: Internal server error
+  /term/{id}/preregistration:
+    delete:
+      summary: Remove a Semester Course from Preregistration
+      parameters:
+        - in: path
+          name: id
+          required: true
+          description: ID of the term
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+        '404':
+          description: Term not found
+        '400':
+          description: Invalid request
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PreRegCourse'
+    post:
+      summary: Add a Semester Course to Preregistration
+      parameters:
+        - in: path
+          name: id
+          required: true
+          description: ID of the term
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PreRegCourse'
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+        '404':
+          description: Term not found
+        '400':
+          description: Invalid request
+  /term/{id}/preregistration_courses:
+    get:
+      summary: Get Preregistration Courses for a Term
+      parameters:
+        - in: path
+          name: id
+          required: true
+          description: ID of the term
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  prcs:
+                    type: array
+                    items:
+                      type: string
+        '404':
+          description: Term not found
+        '400':
+          description: Invalid request
+
 
   /Professor/{id}:
     get:
@@ -1210,6 +1296,27 @@ components:
           type: array
           items:
             $ref: "#/components/schemas/SemesterCourse"
+    PreRegCourse:
+      type: object
+      properties:
+        term_id:
+          type: number
+          description: ID of the term associated with the preregistration course
+        semester_courses:
+          type: array
+          items:
+            type: object
+            properties:
+              course:
+                type: string
+                description: ID of the semester course
+              requests:
+                type: number
+                default: 0
+                description: Number of requests for the semester course
+      required:
+        - term_id
+        - semester_courses
     SemesterCourse:
       type: object
       required:
