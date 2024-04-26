@@ -31,7 +31,7 @@
     "dotenv": "^16.0.3",
     "express": "^4.19.2",
     "jsonwebtoken": "^9.0.0",
-    "mongoose": "^7.1.0",
+    "mongoose": "^7.3.3",
     "nodemon": "^2.0.22",
     "swagger": "^0.7.5",
     "swagger-jsdoc": "^6.2.8",
